@@ -116,7 +116,7 @@ class TiendaTest {
 			prodHome.beginTransaction();
 			
 			List<Producto> listProd = prodHome.findAll();
-			
+			List<String> listaNombrePrecio = listProd.stream().map(p -> "Nombre: "+p.getNombre()+" ,precio: "+p.getPrecio()).toList();
 			//TODO STREAMS
 	
 			
