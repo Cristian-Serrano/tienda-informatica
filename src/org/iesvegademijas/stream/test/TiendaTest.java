@@ -2,6 +2,7 @@ package org.iesvegademijas.stream.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -117,18 +118,14 @@ class TiendaTest {
 			
 			List<Producto> listProd = prodHome.findAll();
 			List<String> listaNombrePrecio = listProd.stream().map(p -> "Nombre: "+p.getNombre()+" ,precio: "+p.getPrecio()).toList();
-			//TODO STREAMS
-			System.out.println(listaNombrePrecio);
-	
-			
+			listaNombrePrecio.forEach(s -> System.out.println(s));
+
 			prodHome.commitTransaction();
 		}
 		catch (RuntimeException e) {
 			prodHome.rollbackTransaction();
 		    throw e; // or display error message
 		}
-		
-	
 	}
 	
 	
@@ -143,8 +140,13 @@ class TiendaTest {
 		try {
 			prodHome.beginTransaction();			
 			List<Producto> listProd = prodHome.findAll();
-			
-			//TODO STREAMS
+
+			DecimalFormat df = new DecimalFormat("#.00");
+
+			List<String> listaNombrePrecio = listProd.stream().
+					map(p -> "Nombre: "+p.getNombre()+" ,precio: "+((df.format(p.getPrecio()*1.06))+" $")).toList();
+
+			listaNombrePrecio.forEach(s -> System.out.println(s));
 			
 			prodHome.commitTransaction();
 		}
@@ -166,9 +168,10 @@ class TiendaTest {
 		try {
 			prodHome.beginTransaction();
 		
-			List<Producto> listProd = prodHome.findAll();		
-						
-			//TODO STREAMS
+			List<Producto> listProd = prodHome.findAll();
+			List<String> listaNombrePrecio = listProd.stream().map(p -> "Nombre: "+p.getNombre().toUpperCase()+" ,precio: "+p.getPrecio()).toList();
+			listaNombrePrecio.forEach(s -> System.out.println(s));
+
 		
 			prodHome.commitTransaction();
 		}
@@ -191,9 +194,15 @@ class TiendaTest {
 			fabHome.beginTransaction();
 	
 			List<Fabricante> listFab = fabHome.findAll();
-					
-			//TODO STREAMS
-					
+			List<String> listaNombreYDosPrimerasLetrasFab = listFab.stream()
+					.map((p) ->{
+							String nombre = p.getNombre();
+							String avreviatura = nombre.substring(0,2).toUpperCase();
+							return "Nombre: "+p.getNombre()+" ,Abreviatura: "+avreviatura;
+						})
+					.toList();
+
+			listaNombreYDosPrimerasLetrasFab.forEach(s -> System.out.println(s));
 			fabHome.commitTransaction();
 		}
 		catch (RuntimeException e) {
@@ -214,9 +223,12 @@ class TiendaTest {
 			fabHome.beginTransaction();
 	
 			List<Fabricante> listFab = fabHome.findAll();
-					
-			//TODO STREAMS
-		
+			List<Integer> listaFabConProducto = listFab.stream()
+					.filter(f -> !f.getProductos().isEmpty())
+					.map(f -> f.getCodigo())
+					.toList();
+			listaFabConProducto.forEach(integer -> System.out.println(integer));
+
 			fabHome.commitTransaction();
 		}
 		catch (RuntimeException e) {
@@ -1272,4 +1284,3 @@ Hewlett-Packard              2
 	}
 	
 }
-
