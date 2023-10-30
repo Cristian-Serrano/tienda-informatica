@@ -622,9 +622,9 @@ class TiendaTest {
 			List<Fabricante> listFab = fabHome.findAll();
 					
 			listFab.stream()
-							.filter(p -> {
-								return p.getNombre().charAt(0) == 'S';
-							});
+							.filter(p -> p.getNombre().charAt(0) == 'S')
+					.map(p -> p.getNombre())
+					.forEach(System.out::println);
 		
 			fabHome.commitTransaction();
 		}
@@ -648,7 +648,11 @@ class TiendaTest {
 		
 			List<Producto> listProd = prodHome.findAll();
 			
-			//TODO STREAMS
+			List<Producto> productosContienenPortatil = listProd.stream()
+					.filter(p -> p.getNombre().contains("Portátil"))
+					.collect(toList());
+
+			productosContienenPortatil.forEach(System.out::println);
 				
 			prodHome.commitTransaction();
 		}
@@ -671,9 +675,12 @@ class TiendaTest {
 			prodHome.beginTransaction();
 		
 			List<Producto> listProd = prodHome.findAll();
-			
-			//TODO STREAMS
-				
+
+			List<Producto> productosContienenPortatil = listProd.stream()
+					.filter(p -> p.getNombre().contains("Monitor") && p.getPrecio() < 215)
+					.collect(toList());
+
+			productosContienenPortatil.forEach(System.out::println);
 			prodHome.commitTransaction();
 		}
 		catch (RuntimeException e) {
@@ -687,6 +694,7 @@ class TiendaTest {
 	 * 22. Lista el nombre y el precio de todos los productos que tengan un precio mayor o igual a 180€. 
 	 * Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente).
 	 */
+	@Test
 	void test22() {
 		
 		
@@ -696,7 +704,10 @@ class TiendaTest {
 		
 			List<Producto> listProd = prodHome.findAll();
 			
-			//TODO STREAMS
+			listProd.stream()
+					.filter(p -> p.getPrecio() >= 180)
+					.sorted(comparing(Producto::getPrecio).reversed().thenComparing(comparing(Producto::getNombre)))
+					.forEach(System.out::println);
 				
 			prodHome.commitTransaction();
 		}
@@ -720,7 +731,7 @@ class TiendaTest {
 		
 			List<Producto> listProd = prodHome.findAll();
 			
-			//TODO STREAMS
+			List<String> nombrePrecioFabOrdenadoPorFab =
 			
 			prodHome.commitTransaction();
 		}
