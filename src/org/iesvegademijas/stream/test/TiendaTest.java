@@ -732,7 +732,9 @@ class TiendaTest {
 			List<Producto> listProd = prodHome.findAll();
 			
 			List<String> nombrePrecioFabOrdenadoPorFab = listProd.stream()
-					.map(producto -> "Nombre: "+producto.getNombre()+", precio: "+producto.getPrecio()+", nombre de fabricante: "+producto.getFabricante().getNombre());
+					.sorted()
+					.map(producto -> "Nombre: "+producto.getNombre()+", precio: "+producto.getPrecio()+", nombre de fabricante: "+producto.getFabricante().getNombre())
+					;
 			
 			prodHome.commitTransaction();
 		}
