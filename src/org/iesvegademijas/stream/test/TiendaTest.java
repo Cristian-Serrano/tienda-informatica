@@ -932,13 +932,15 @@ Fabricante: Xiaomi
 	
 			List<Fabricante> listFab = fabHome.findAll();
 					
-			/*List<String> listFabProd = listFab.stream()
+			List<String> listFabProd = listFab.stream()
 					.map(f -> {String resultado = "";
-						resultado += "Fabricante: "+f.getNombre()+"\n\n\t\t\tProductos:\n";
-						);
-					return })
+						resultado += "Fabricante: "+f.getNombre()+"\n\n\t\t\tProductos:\n" + f.getProductos().stream()
+																												.map(p -> p.getNombre() +"\n")
+																												.collect(toList());
+						return resultado;})
 					.collect(toList());
-*/
+
+			listFabProd.forEach(System.out::println);
 			fabHome.commitTransaction();
 		}
 		catch (RuntimeException e) {
@@ -960,7 +962,7 @@ Fabricante: Xiaomi
 	
 			List<Fabricante> listFab = fabHome.findAll();
 					
-			//TODO STREAMS
+
 								
 			fabHome.commitTransaction();
 		}
