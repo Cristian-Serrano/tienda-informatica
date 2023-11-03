@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -934,9 +935,9 @@ Fabricante: Xiaomi
 					
 			List<String> listFabProd = listFab.stream()
 					.map(f -> {String resultado = "";
-						resultado += "Fabricante: "+f.getNombre()+"\n\n\t\t\tProductos:\n" + f.getProductos().stream()
-																												.map(p -> p.getNombre() +"\n")
-																												.collect(toList());
+						resultado += "\nFabricante: "+f.getNombre()+"\n\n\t\t\tProductos:\n" + f.getProductos().stream()
+																												.map(p -> "\t\t\t"+p.getNombre())
+																												.collect(joining("\n"));
 						return resultado;})
 					.collect(toList());
 
